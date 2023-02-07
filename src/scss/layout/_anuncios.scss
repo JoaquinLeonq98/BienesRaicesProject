@@ -7,6 +7,7 @@
 .anuncio{
     background-color: lighten($gris, 8);
     border: 1px solid $gris;
+    margin-bottom: 2rem;
 
     .contenido-anuncio{
         padding: 2rem;
@@ -49,4 +50,8 @@
             font-weight: $black;
         }
     }
+}
+
+.resumen-propiedad{
+    margin: .5rem;
 }
