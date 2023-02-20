@@ -1,4 +1,9 @@
 <?php
+//Base de Datos
+    require '../../includes/config/database.php';
+    $db = conectardb();
+
+    var_dump($db);
     require '../../includes/funciones.php';
     
     incluirTemplate('header');
@@ -43,7 +48,7 @@
             <fieldset>
                 <legend>Vendedor</legend>
                 <select name="" id="">
-                    <option value="">-- Seleccione --</option>
+                    <option value="" disabled selected>-- Seleccione --</option>
                     <option value="1">Juan</option>
                     <option value="2">Karen</option>
                     <option value="3">Alejandro</option>
