@@ -14,7 +14,7 @@
         $precio = '';
         $descripcion = '';
         $habitaciones = '';
-        $wc = $_POST['wc'];
+        $wc = '';
         $estacionamiento = '';
         $vendedorId = '';
     // Ejecutar el codigo despues de que el usuario envia el formulario
@@ -28,6 +28,10 @@
         $estacionamiento = mysqli_real_escape_string($db,$_POST['estacionamiento']);
         $vendedorId = mysqli_real_escape_string($db,$_POST['vendedor']);
         $creado = date('Y/m/d');
+
+        // Asignar files hacia una variable
+        $imagen = $_FILES['imagen'];
+     
 
         if(!$titulo){
             $errores[] = "Debes añadir un titulo";
@@ -57,8 +61,15 @@
             $errores[] = "Debes añadir un vendedor";
         }
 
-        // Validar por tamaño (1mb maximo)
+        if(!$imagen['name'] || $imagen['error']){
+            $errores[] = "Debes añadir una imagen";
+        }
+
+
+        // Validar por tipo y tamaño de archivo (1000kb maximo)
+
         $medida = 1000 * 1000;
+
         if($imagen['size'] > $medida){
             $errores[] = "La imagen es muy pesada";
         }
@@ -67,13 +78,26 @@
         // Revisar que el arreglo de errores este vacio
 
         if(empty($errores)){
+            // Crear carpeta
+            $carpetaImagenes = '../../imagenes/';
+            if(!is_dir($carpetaImagenes)){
+                mkdir($carpetaImagenes);
+            }
+
+            // Generar un nombre unico
+            $nombreImagen = md5(uniqid(rand(), true)) . ".jpg";
+
+            // Subir la imagen
+            move_uploaded_file($imagen['tmp_name'], $carpetaImagenes . $nombreImagen);
+
+
           // Insertar en la base de datos
-            $query = "INSERT INTO propiedades (titulo, precio, descripcion, habitaciones, wc, estacionamiento, creado, vendedorId) VALUES ('$titulo', '$precio', '$descripcion', '$habitaciones', '$wc', '$estacionamiento', '$creado', '$vendedorId')";
+            $query = "INSERT INTO propiedades (titulo, precio, imagen, descripcion, habitaciones, wc, estacionamiento, creado, vendedorId) VALUES ('$titulo', '$precio', '$nombreImagen','$descripcion', '$habitaciones', '$wc', '$estacionamiento', '$creado', '$vendedorId')";
 
             $resultado = mysqli_query($db, $query);
             if ($resultado) {
             //    Redireccionar al usuario
-                header('Location: /BienesRaicesProject/admin/index.php');
+                header('Location: ../../admin/index.php?resultado=1');
             }  
 
         }
@@ -97,7 +121,7 @@
             </div>
         <?php endforeach; ?>
         
-        <form action="/BienesRaicesProject/admin/propiedades/crear.php" class="formulario" method="POST">
+        <form action="../propiedades/crear.php" class="formulario" method="POST" enctype="multipart/form-data">
             <fieldset>
                 <legend>Información General</legend>
 
@@ -116,7 +140,7 @@
                        value="<?php echo $precio; ?>">
 
                 <label for="imagen">Imagen:</label>
-                <input type="file" id="imagen" accept="image/jpeg, image/png">
+                <input type="file" id="imagen" accept="image/jpeg, image/png" name="imagen">
 
                 <label for="descripcion">Descripción:</label>
                 <textarea id="descripcion" name="descripcion"><?php echo $descripcion; ?></textarea>
