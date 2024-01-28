@@ -10,6 +10,6 @@
         </div>
         <p class="copyright">Todos los Derechos Reservados 2023 &copy;</p>
     </footer>
-    <script src="/BienesRaicesProject/build/js/bundle.min.js"></script>
+    <script src="/build/js/bundle.min.js"></script>
 </body>
 </html>

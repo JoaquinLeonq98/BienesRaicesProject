@@ -4,7 +4,7 @@
     $db = conectardb();
 
     // Consultar para obtener los vendedores
-    $consulta = "SELECT * FROM vendedores"; 
+    $consulta = "SELECT * FROM vendedores";
     $resultado = mysqli_query($db, $consulta);
 
 
@@ -78,8 +78,10 @@
         // Revisar que el arreglo de errores este vacio
 
         if(empty($errores)){
+
+            $directorioActual = __DIR__;
             // Crear carpeta
-            $carpetaImagenes = '../../imagenes/';
+            $carpetaImagenes =  $directorioActual . '/imagenes/';
             if(!is_dir($carpetaImagenes)){
                 mkdir($carpetaImagenes);
             }
@@ -98,7 +100,7 @@
             if ($resultado) {
             //    Redireccionar al usuario
                 header('Location: ../../admin/index.php?resultado=1');
-            }  
+            }
 
         }
 
@@ -126,17 +128,17 @@
                 <legend>Información General</legend>
 
                 <label for="titulo">Titulo:</label>
-                <input type="text" 
-                        id="titulo" 
-                        name="titulo" 
-                        placeholder="Titulo Propiedad" 
+                <input type="text"
+                        id="titulo"
+                        name="titulo"
+                        placeholder="Titulo Propiedad"
                         value="<?php echo $titulo; ?>">
 
                 <label for="precio">Precio:</label>
                 <input type="number"
-                       id="precio" 
-                       name="precio" 
-                       placeholder="Precio Propiedad" 
+                       id="precio"
+                       name="precio"
+                       placeholder="Precio Propiedad"
                        value="<?php echo $precio; ?>">
 
                 <label for="imagen">Imagen:</label>
@@ -151,29 +153,29 @@
                 <legend>Información Propiedad</legend>
                     
                     <label for="habitaciones">Habitaciones:</label>
-                    <input type="number" 
-                            id="habitaciones" 
-                            name="habitaciones" 
-                            placeholder="Ej: 3" 
-                            min="1" 
+                    <input type="number"
+                            id="habitaciones"
+                            name="habitaciones"
+                            placeholder="Ej: 3"
+                            min="1"
                             max="9"
                             value="<?php echo $habitaciones; ?>">
     
                     <label for="wc">Baños:</label>
-                    <input type="number" 
-                            id="wc" 
-                            name="wc" 
-                            placeholder="Ej: 3" 
-                            min="1" 
-                            max="9" 
+                    <input type="number"
+                            id="wc"
+                            name="wc"
+                            placeholder="Ej: 3"
+                            min="1"
+                            max="9"
                             value="<?php echo $wc; ?>">
     
                     <label for="estacionamiento">Estacionamiento:</label>
-                    <input type="number" 
-                            id="estacionamiento" 
-                            name="estacionamiento" 
-                            placeholder="Ej: 3" 
-                            min="1" 
+                    <input type="number"
+                            id="estacionamiento"
+                            name="estacionamiento"
+                            placeholder="Ej: 3"
+                            min="1"
                             max="9"
                             value="<?php echo $estacionamiento; ?>">
             </fieldset>
@@ -184,8 +186,8 @@
                 <select name="vendedor" id="">
                     <option value="" disabled selected>-- Seleccione --</option>
                     <?php while($vendedor = mysqli_fetch_assoc($resultado)): ?>
-                        <option 
-                            <?php echo $vendedorId === $vendedor['id'] ? 'selected' : ''; ?> 
+                        <option
+                            <?php echo $vendedorId === $vendedor['id'] ? 'selected' : ''; ?>
                             value="<?php echo $vendedor['id']; ?>">
                             <?php echo $vendedor['nombre'] . " " . $vendedor['apellido']; ?>
                         </option>
@@ -196,6 +198,6 @@
             <input type="submit" value="Crear Propiedad" class="boton boton-verde">
         </form>
     </main>
-<?php  
-    incluirTemplate('footer');   
+<?php
+    incluirTemplate('footer');
 ?>

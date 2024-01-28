@@ -18,7 +18,7 @@
             header('Location: ./index.php');
         }
 
-     $propiedad = mysqli_fetch_assoc($resultado);   
+     $propiedad = mysqli_fetch_assoc($resultado);
 
      require 'includes/funciones.php';
     incluirTemplate('header');
